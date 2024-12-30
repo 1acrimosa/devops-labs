@@ -1,0 +1,19 @@
+stages:
+  - sonar_scan
+  - deploy
+
+sonar-scan:
+  stage: sonar_scan
+  script:
+    - sonar-scanner -Dsonar.projectKey=assignment-2
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying..."
+  only:
+    - main
+  when: on_success
+
