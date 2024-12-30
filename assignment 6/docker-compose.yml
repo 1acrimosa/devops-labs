@@ -1,0 +1,73 @@
+version: '3.10'
+
+
+networks:
+  default: {}
+
+
+x-shared-environment: &shared-environment {}
+
+
+x-base-image: &base-image
+  restart: always
+  environment:
+    <<: *shared-environment
+  networks:
+    default: {}
+  logging:
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+
+services:
+  postgres:
+    <<: *base-image
+    hostname: postgres
+    image: postgres:16
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "auth-kc"
+      POSTGRES_USER: "auth-kc"
+      POSTGRES_PASSWORD: "auth-kc"
+
+  keycloak:
+    <<: *base-image
+    hostname: keycloak
+    build:
+      context: .
+      dockerfile: Dockerfile.keycloak
+    command: -v start
+    ports:
+      - 8180:8180
+    environment:
+      KC_LOG_LEVEL: "DEBUG"
+      KC_HTTP_PORT: "8180"
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME: "localhost"
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+      KC_DB: "postgres"
+      KC_DB_URL: "jdbc:postgresql://postgres:5432/auth-kc"
+      KC_DB_USERNAME: "auth-kc"
+      KC_DB_PASSWORD: "auth-kc"
+
+  portainer:
+    <<: *base-image
+    hostname: portainer
+    image: portainer/portainer-ce:latest
+    command: --log-level=DEBUG
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  postgres_data: {}
+  portainer_data: {}
