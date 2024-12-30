@@ -1,0 +1,6 @@
+for domain in thumbnails grafana prometheus alertmanager sonarqube; do
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout ${domain}.key \
+    -out ${domain}.crt \
+    -subj "/CN=${domain}.devops.final"
+done

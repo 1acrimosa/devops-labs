@@ -1,0 +1,84 @@
+# Common SSL configuration
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+ssl_prefer_server_ciphers off;
+ssl_session_timeout 1d;
+ssl_session_cache shared:SSL:50m;
+ssl_session_tickets off;
+ssl_stapling on;
+ssl_stapling_verify on;
+
+# Thumbnails Application
+server {
+    listen 443 ssl;
+    server_name thumbnails.devops.final;
+    
+    ssl_certificate /etc/nginx/certs/thumbnails.crt;
+    ssl_certificate_key /etc/nginx/certs/thumbnails.key;
+    
+    location / {
+        proxy_pass http://minikube-node-ip:nodeport;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# Grafana
+server {
+    listen 443 ssl;
+    server_name grafana.devops.final;
+    
+    ssl_certificate /etc/nginx/certs/grafana.crt;
+    ssl_certificate_key /etc/nginx/certs/grafana.key;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# Prometheus
+server {
+    listen 443 ssl;
+    server_name prometheus.devops.final;
+    
+    ssl_certificate /etc/nginx/certs/prometheus.crt;
+    ssl_certificate_key /etc/nginx/certs/prometheus.key;
+    
+    location / {
+        proxy_pass http://localhost:9090;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# AlertManager
+server {
+    listen 443 ssl;
+    server_name alertmanager.devops.final;
+    
+    ssl_certificate /etc/nginx/certs/alertmanager.crt;
+    ssl_certificate_key /etc/nginx/certs/alertmanager.key;
+    
+    location / {
+        proxy_pass http://localhost:9093;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# SonarQube
+server {
+    listen 443 ssl;
+    server_name sonarqube.devops.final;
+    
+    ssl_certificate /etc/nginx/certs/sonarqube.crt;
+    ssl_certificate_key /etc/nginx/certs/sonarqube.key;
+    
+    location / {
+        proxy_pass http://localhost:9000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
