@@ -1,0 +1,72 @@
+{
+  "name": "react-tictactoe",
+  "version": "4.1.1",
+  "description": "React Hooks: Tic Tac Toe",
+  "author": "August “Kai” Kaiser <awkaiser@users.noreply.github.com>",
+  "repository": "awkaiser/react-tictactoe",
+  "homepage": "https://awkaiser.github.io/react-tictactoe/",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "tic tac toe",
+    "react",
+    "minimax"
+  ],
+  "engines": {
+    "node": ">=20.13.1",
+    "npm": ">=10.5.2"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "serve": "^6.5.8"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/jest": "^29.5.12",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-legacy": "^5.4.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "babel-jest": "^29.7.0",
+    "browserslist-config-google": "^3.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-react-app": "^7.0.1",
+    "gh-pages": "^6.1.1",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "react-test-renderer": "^18.3.1",
+    "terser": "^5.31.1",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.2"
+  },
+  "scripts": {
+    "format": "prettier --write 'src/**/*.{css,ts,tsx}'",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "test": "jest",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    "extends browserslist-config-google"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "volta": {
+    "node": "20.13.1",
+    "npm": "10.5.2"
+  }
+}
